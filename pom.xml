@@ -11,20 +11,26 @@
 	<properties>
 		<docker.image.prefix>kammana</docker.image.prefix>
 		<sonar.host.url>http://18.181.164.81:9000/</sonar.host.url>
-
 	</properties>
-	<dependencies>
 
-		
+	<dependencies>	
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.4.0</version>
+			</plugin>
+		</plugins>
+	</build>
 	<distributionManagement>
 		 <snapshotRepository>
 		    <id>nexusRepo</id>
@@ -35,15 +41,14 @@
 		    <id>nexusRepo</id>
 		    <url>http://44.202.251.20:8081/repository/flm-releases/</url>
 		</repository>
-  	</distributionManagement>
+ 	</distributionManagement>
 	
 	<pluginRepositories>
-	    <pluginRepository>    
+	    <pluginRepository>
 		<id>maven1</id>
 		<name>Maven.org</name>
 		<url>http://repo1.maven.org/maven2</url>
 	    </pluginRepository>
 	</pluginRepositories>
-
 	
 </project>
