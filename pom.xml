@@ -1,28 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>in.javahome</groupId>
-	<artifactId>myweb</artifactId>
-	<packaging>war</packaging>
-	<version>8.7.1</version>
-	<name>Java Home myweb</name>
-	<url>http://maven.apache.org</url>
-	
-	<properties>
-		<docker.image.prefix>kammana</docker.image.prefix>
-		<sonar.host.url>http://18.181.164.81:9000/</sonar.host.url>
-	</properties>
-
-	<dependencies>	
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-	
-	<build>
+<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -31,40 +7,80 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<url>http://13.233.38.168:8080/manager/text</url>
-					
-					<server>TomcatServer</server>
-					
-					<path>/Zomoto</path> 
-					
-					<update>true</update>
-				</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>check-server</id>
+						<phase>pre-integration-test</phase> <goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<echo message="Checking if Tomcat host ${cargo.tomcat.hostname} is reachable..."/>
+								<condition property="tomcat.host.reachable">
+									<isreachable host="${cargo.tomcat.hostname}" timeout="5"/>
+								</condition>
+								<fail unless="tomcat.host.reachable" message="Tomcat host ${cargo.tomcat.hostname} is not reachable! Deployment aborted."/>
+								<echo message="Tomcat host ${cargo.tomcat.hostname} is reachable."/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven3-plugin</artifactId>
+				<version>1.10.11</version> <configuration>
+					<container>
+						<containerId>tomcat9x</containerId>
+						<type>remote</type>
+					</container>
+					<configuration>
+						<type>runtime</type>
+						<properties>
+							<cargo.remote.uri>${cargo.tomcat.manager.url}</cargo.remote.uri>
+							<cargo.remote.username>${tomcat.username}</cargo.remote.username>
+							<cargo.remote.password>${tomcat.password}</cargo.remote.password>
+							<cargo.tomcat.hostname>${cargo.tomcat.hostname}</cargo.tomcat.hostname> </properties>
+					</configuration>
+					<deployables>
+						<deployable>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<type>war</type>
+							<properties>
+								<context>${cargo.deploy.context}</context>
+							</properties>
+							<pingURL>${cargo.tomcat.base.url}${cargo.deploy.context}/</pingURL>
+							<pingTimeout>30000</pingTimeout> </deployable>
+					</deployables>
+				</configuration>
+				</plugin>
 		</plugins>
 	</build>
-	
-	<distributionManagement>
-		 <snapshotRepository>
-		    <id>nexusRepo</id>
-		    <url>http://34.208.218.12:8081/repository/sample-snapshots/</url>
-		 </snapshotRepository>
-		
-		<repository>
-		    <id>nexusRepo</id>
-		    <url>http://44.202.251.20:8081/repository/flm-releases/</url>
-		</repository>
- 	</distributionManagement>
-	
-	<pluginRepositories>
-	    <pluginRepository>
-		<id>maven1</id>
-		<name>Maven.org</name>
-		<url>http://repo1.maven.org/maven2</url>
-	    </pluginRepository>
-	</pluginRepositories>
 
-</project>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<cargo.tomcat.hostname>localhost</cargo.tomcat.hostname> <cargo.tomcat.port>8080</cargo.tomcat.port>
+				<cargo.tomcat.base.url>http://${cargo.tomcat.hostname}:${cargo.tomcat.port}/</cargo.tomcat.base.url>
+				<cargo.tomcat.manager.url>${cargo.tomcat.base.url}manager/text</cargo.tomcat.manager.url>
+				<cargo.deploy.context>/dev-${project.artifactId}</cargo.deploy.context> <tomcat.server.id>tomcat-dev-server</tomcat.server.id> </properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<cargo.tomcat.hostname>13.233.38.168</cargo.tomcat.hostname> <cargo.tomcat.port>8080</cargo.tomcat.port>
+				<cargo.tomcat.base.url>http://${cargo.tomcat.hostname}:${cargo.tomcat.port}/</cargo.tomcat.base.url>
+				<cargo.tomcat.manager.url>${cargo.tomcat.base.url}manager/text</cargo.tomcat.manager.url>
+				<cargo.deploy.context>/Zomoto</cargo.deploy.context> <tomcat.server.id>tomcat-prod-server</tomcat.server.id> </properties>
+		</profile>
+	</profiles>
