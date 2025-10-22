@@ -29,26 +29,42 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.4.0</version>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://13.233.38.168:8080/manager/text</url>
+					
+					<server>TomcatServer</server>
+					
+					<path>/Zomoto</path> 
+					
+					<update>true</update>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+	
 	<distributionManagement>
 		 <snapshotRepository>
-		    <id>nexusRepo</id>
-		    <url>http://34.208.218.12:8081/repository/sample-snapshots/</url>
+		    <id>nexusRepo</id>
+		    <url>http://34.208.218.12:8081/repository/sample-snapshots/</url>
 		 </snapshotRepository>
 		
 		<repository>
-		    <id>nexusRepo</id>
-		    <url>http://44.202.251.20:8081/repository/flm-releases/</url>
+		    <id>nexusRepo</id>
+		    <url>http://44.202.251.20:8081/repository/flm-releases/</url>
 		</repository>
- 	</distributionManagement>
+ 	</distributionManagement>
 	
 	<pluginRepositories>
-	    <pluginRepository>
+	    <pluginRepository>
 		<id>maven1</id>
 		<name>Maven.org</name>
 		<url>http://repo1.maven.org/maven2</url>
-	    </pluginRepository>
+	    </pluginRepository>
 	</pluginRepositories>
 	
 </project>
