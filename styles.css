@@ -1,135 +1,191 @@
 /* General Styles */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Verdana', sans-serif; /* Changed font */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: #333;
+  color: #444; /* Slightly lighter text */
+  background-color: #f4f7f6; /* Light gray background */
 }
 
 header {
-  background: #333;
-  color: #fff;
+  background: #2c3e50; /* Dark blue header */
+  color: #ecf0f1; /* Light gray text */
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added subtle shadow */
 }
 
 header .logo {
-  font-size: 1.5rem;
+  font-size: 1.6rem; /* Slightly larger */
   font-weight: bold;
 }
 
 header .nav-links {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem; /* Increased gap */
 }
 
 header .nav-links a {
-  color: #fff;
+  color: #ecf0f1;
   text-decoration: none;
+  transition: color 0.3s ease; /* Added hover effect */
+}
+
+header .nav-links a:hover {
+  color: #3498db; /* Lighter blue on hover */
 }
 
 .hero {
-  background: url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') no-repeat center center/cover;
-  height: 100vh;
+  /* Changed background image */
+  background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') no-repeat center center/cover;
+  height: 90vh; /* Slightly smaller height */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Added text shadow for readability */
 }
 
 .hero-content h1 {
-  font-size: 3rem;
+  font-size: 3.5rem; /* Slightly larger */
   margin-bottom: 1rem;
 }
 
 .hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
+  font-size: 1.3rem; /* Slightly larger */
+  margin-bottom: 2.5rem; /* Increased margin */
 }
 
 .cta-button {
-  background: #ff6f61;
+  background: #3498db; /* Blue button */
   color: #fff;
-  padding: 0.8rem 2rem;
+  padding: 0.9rem 2.2rem; /* Slightly larger padding */
   text-decoration: none;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 25px; /* Pill shape */
+  font-size: 1.1rem; /* Slightly larger */
+  transition: background-color 0.3s ease; /* Added hover effect */
 }
 
+.cta-button:hover {
+  background: #2980b9; /* Darker blue on hover */
+}
+
+/* Section styling */
 .about, .services, .portfolio, .contact {
-  padding: 4rem 2rem;
+  padding: 5rem 2rem; /* Increased padding */
   text-align: center;
+  border-bottom: 1px solid #ddd; /* Separator line */
+}
+
+.about h2, .services h2, .portfolio h2, .contact h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #2c3e50; /* Dark blue headings */
 }
 
 .about img, .gallery img {
   max-width: 100%;
-  border-radius: 10px;
-  margin-top: 1rem;
+  border-radius: 8px; /* Slightly less rounded */
+  margin-top: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Added shadow */
 }
 
 .service-cards {
   display: flex;
-  justify-content: space-around;
+  justify-content: center; /* Center cards */
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 2rem; /* Increased gap */
 }
 
 .card {
-  background: #f9f9f9;
-  padding: 1rem;
-  border-radius: 10px;
-  width: 30%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: #fff; /* White background */
+  padding: 1.5rem; /* Increased padding */
+  border-radius: 8px;
+  width: calc(33% - 4rem); /* Responsive width calculation */
+  min-width: 280px; /* Minimum width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee; /* Added light border */
+  transition: transform 0.3s ease; /* Added hover effect */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Lift card on hover */
+}
+
+.card h3 {
+  color: #3498db; /* Blue card title */
+  margin-top: 0;
 }
 
 .card img {
   max-width: 100%;
-  border-radius: 10px;
+  border-radius: 8px 8px 0 0; /* Rounded top corners only */
+  margin-bottom: 1rem;
 }
 
 .gallery {
   display: flex;
-  justify-content: space-around;
+  justify-content: center; /* Center items */
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem; /* Increased gap */
 }
 
 .gallery img {
-  width: 30%;
+  width: calc(33% - 3rem); /* Responsive calculation */
+  min-width: 250px;
   height: auto;
+  border: 1px solid #ddd; /* Added border */
+  padding: 5px; /* Small padding around image */
+  background: #fff;
 }
 
 .contact form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-width: 500px;
-  margin: 0 auto;
+  gap: 1.2rem; /* Increased gap */
+  max-width: 600px; /* Slightly wider */
+  margin: 2rem auto 0; /* Added top margin */
+  background: #fff; /* Form background */
+  padding: 2rem; /* Padding inside form */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .contact input, .contact textarea {
-  padding: 0.8rem;
+  padding: 1rem; /* Increased padding */
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px; /* Less rounded */
+  font-size: 1rem;
+}
+
+.contact textarea {
+  min-height: 120px; /* Set minimum height */
 }
 
 .contact button {
-  background: #ff6f61;
+  background: #3498db; /* Blue button */
   color: #fff;
-  padding: 0.8rem;
+  padding: 1rem; /* Increased padding */
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 1.1rem; /* Larger font */
+  transition: background-color 0.3s ease;
+}
+
+.contact button:hover {
+  background: #2980b9; /* Darker blue on hover */
 }
 
 footer {
-  background: #333;
-  color: #fff;
+  background: #2c3e50; /* Dark blue footer */
+  color: #ecf0f1; /* Light gray text */
   text-align: center;
-  padding: 1rem;
+  padding: 1.5rem; /* Increased padding */
+  margin-top: 2rem; /* Added margin */
 }
